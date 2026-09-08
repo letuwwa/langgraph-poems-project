@@ -1,9 +1,6 @@
-from poems.state import PoemState
 from poems.model import create_model
+from poems.state import PoemState
 from poems.validators import validate_poem
-
-
-model = create_model()
 
 
 def write_draft(state: PoemState) -> dict[str, str]:
@@ -24,7 +21,7 @@ def write_draft(state: PoemState) -> dict[str, str]:
         "Return only the poem, without a title or explanation."
     )
 
-    response = model.invoke(prompt)
+    response = create_model().invoke(prompt)
 
     if not isinstance(response.content, str):
         raise ValueError("Expected the model to return poem text.")
@@ -59,7 +56,7 @@ def revise_draft(state: PoemState) -> dict[str, str | int]:
         "or explanation."
     )
 
-    response = model.invoke(prompt)
+    response = create_model().invoke(prompt)
 
     if not isinstance(response.content, str):
         raise ValueError("Expected the model to return poem text.")

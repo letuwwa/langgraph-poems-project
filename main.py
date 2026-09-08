@@ -7,7 +7,6 @@ from rich.text import Text
 from poems.graph import build_graph
 from poems.state import PoemState
 
-
 app = typer.Typer()
 console = Console()
 
@@ -37,10 +36,7 @@ def run_workflow(initial_state: PoemState) -> None:
     )
 
     if result["validation_errors"]:
-        console.print(
-            "[yellow]Revision limit reached. "
-            "These issues remain:[/yellow]"
-        )
+        console.print("[yellow]Revision limit reached. These issues remain:[/yellow]")
         for error in result["validation_errors"]:
             console.print(Text(f"- {error}"))
     else:
@@ -54,7 +50,7 @@ def poem(
     topic: str,
     tone: str = "sad",
     lines: int = typer.Option(5, min=1, max=25),
-):
+) -> None:
     """Write a poem about TOPIC."""
     initial_state: PoemState = {
         "topic": topic,
@@ -72,7 +68,7 @@ def poem(
 def haiku(
     topic: str,
     tone: str = "peaceful",
-):
+) -> None:
     """Write an English haiku about TOPIC."""
     initial_state: PoemState = {
         "topic": topic,
@@ -84,6 +80,7 @@ def haiku(
         "revision_count": 0,
     }
     run_workflow(initial_state)
+
 
 if __name__ == "__main__":
     app()
